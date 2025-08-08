@@ -2,27 +2,22 @@
   "name": "test_school",
   "version": "1.0.0",
   "main": "index.ts",
+ 
   "license": "MIT",
   "author": {
     "name": "Mahmudul Hasan",
     "email": "mmhasan045@gmail.com",
     "url": "https://github.com/m45hasan"
   },
-
   "scripts": {
-   
-  
     "build": "tsc --build && tsc-alias",
-  
     "start": "node -r module-alias/register build/src/index.js",
     "start:dev": "nodemon -r tsconfig-paths/register -r module-alias/register src/index.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "clear-cache": "npm cache clean --force",
     "clear": "rm -rf node_modules package-lock.json build"
   },
-
   "dependencies": {
-   
     "@types/mongoose-paginate-v2": "^1.6.4",
     "@types/nodemailer": "^6.4.17",
     "axios": "^1.7.9",
@@ -50,7 +45,6 @@
     "mongoose": "^8.14.1",
     "mongoose-paginate-v2": "^1.9.0",
     "morgan": "^1.10.0",
-  
     "nanoid": "^3.1.30",
     "node-cache": "^5.1.2",
     "nodemailer": "^6.10.1",

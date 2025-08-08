@@ -20,6 +20,7 @@ import router from "./v1/routes/index";
 import { errorHandler } from "./error/errorHandler";
 import { dbConnect } from "../config/db.config";
 
+
 const app = express();
 // Serve static files from React build directory
 const buildPath = join(__dirname, "../../admin/dist");
