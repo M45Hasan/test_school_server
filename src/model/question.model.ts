@@ -1,7 +1,18 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 import paginate from "mongoose-paginate-v2";
 
-const QuestionSchema = new Schema(
+export interface QuestionDocument extends Document {
+  text: string;
+  competency: string;
+  level: "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
+  options: string[];
+  correctAnswer: string;
+  timeLimit: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const QuestionSchema = new Schema<QuestionDocument>(
   {
     text: { type: String, required: true },
     competency: { type: String, required: true },
@@ -16,6 +27,8 @@ const QuestionSchema = new Schema(
   },
   { timestamps: true }
 );
+
 QuestionSchema.plugin(paginate);
-const Question = model("Question", QuestionSchema);
-export { Question };
+
+const Question = model<QuestionDocument>("Question", QuestionSchema);
+export default Question;
