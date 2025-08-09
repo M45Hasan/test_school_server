@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import Question from "../../model/question.model";
-import { BadRequestError } from "../../error/customError";
+import { BadRequestError, Unauthorized } from "../../error/customError";
 import { tryCatch } from "../../utils/tryCatch";
 import { QuestionZodSchema } from "../../schema/question.zod";
 import appStatus from "../../utils/appStatus";
+import { TestAttempt } from "../../model/attem.model";
+import { TestDocument } from "../../model/test.model";
 
 // Create Question (Admin)
 export const createQuestion = tryCatch(
@@ -98,5 +100,102 @@ export const getQuestionsByLevel = tryCatch(
     const questions = await (Question as any).paginate(query, options);
 
     appStatus(200, questions, req, res);
+  }
+);
+
+export const getQuestionsForAttempt = tryCatch(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { attemptId } = req.params;
+    const userId = (req as any).user._id;
+
+    // 1. Validate attempt exists and belongs to user
+    const attempt = await TestAttempt.findOne({
+      _id: attemptId,
+      user: userId,
+      status: "in-progress",
+    }).populate({
+      path: "test",
+      select: "levelsCovered totalQuestions duration",
+    }).populate({path:"user",select:"-password -__v -createdAt -updatedAt"});
+
+    if (!attempt) {
+      return next(
+        new BadRequestError(
+          attempt ? "Attempt already submitted" : "Invalid attempt ID"
+        )
+      );
+    }
+
+    // 2. Check time remaining
+    const elapsedMinutes =
+      (Date.now() - attempt.startedAt.getTime()) / (1000 * 60);
+    const timeLeft = (attempt.test as TestDocument).duration - elapsedMinutes;
+
+    if (timeLeft <= 0) {
+      await TestAttempt.findByIdAndUpdate(attemptId, {
+        status: "timeout",
+        completedAt: new Date(),
+      });
+      return next(new BadRequestError("Time expired"));
+    }
+
+    // 3. Get questions 
+    if (attempt.answers.length === 0) {
+      const questions = await Question.aggregate([
+        {
+          $match: {
+            level: { $in: (attempt.test as TestDocument).levelsCovered },
+          },
+        },
+        { $sample: { size: (attempt.test as TestDocument).totalQuestions } },
+        {
+          $project: {
+            text: 1,
+            options: 1,
+            timeLimit: 1,
+            competency: 1,
+            _id: 1,
+          },
+        },
+      ]);
+
+      // Store question references
+      await TestAttempt.findByIdAndUpdate(attemptId, {
+        $set: {
+          answers: questions.map((q) => ({
+            question: q._id,
+            selectedOption: "",
+          })),
+        },
+      });
+
+      appStatus(
+        200,
+        {
+          questions,
+          timeLeft: Math.floor(timeLeft),
+        },
+        req,
+        res
+      );
+
+      return
+    }
+
+    // 4. loaded questions
+    const questions = await Question.find({
+      _id: { $in: attempt.answers.map((a) => a.question) },
+    }).select("-correctAnswer");
+
+    appStatus(
+      200,
+      {
+        user:(req as any).user,
+        questions,
+        timeLeft: Math.floor(timeLeft),
+      },
+      req,
+      res
+    );
   }
 );

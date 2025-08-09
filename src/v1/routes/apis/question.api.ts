@@ -4,6 +4,7 @@ import {
   deleteQuestion,
   getQuestions,
   getQuestionsByLevel,
+  getQuestionsForAttempt,
   updateQuestion
 } from "../../controllers/question.controller";
 import { authenticateJWT, checkRole } from "../../../middleware/auth";
@@ -18,5 +19,11 @@ _.delete("/:id", authenticateJWT, checkRole(["admin"]), deleteQuestion);
 // Public
 _.get("/", getQuestions);
 _.get("/level/:level", getQuestionsByLevel);
+_.get(
+  '/for-attempt/:attemptId',
+  authenticateJWT,
+  checkRole(['student']),
+  getQuestionsForAttempt
+);
 
 export default _;

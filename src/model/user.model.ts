@@ -2,7 +2,18 @@ import { Schema, model } from "mongoose";
 import paginate from "mongoose-paginate-v2";
 
 import bcrypt from "bcrypt";
-const UserSchema = new Schema(
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  role: "student" | "admin" | "supervisor";
+  isVerified: boolean;
+  otp: string | null;
+  highestCertificationLevel: "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+const UserSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -31,22 +42,7 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-UserSchema.pre("findOneAndUpdate", async function (next) {
-  const update = this.getUpdate();
-  if (
-    update &&
-    typeof update === "object" &&
-    (update as any).$set &&
-    (update as any).$set.highestCertificationLevel
-  ) {
-    console.log(
-      `Certification level updated to: ${
-        (update as any).$set.highestCertificationLevel
-      }`
-    );
-  }
-  next();
-});
+
 
 UserSchema.methods.comparePassword = async function (
   candidatePassword: string

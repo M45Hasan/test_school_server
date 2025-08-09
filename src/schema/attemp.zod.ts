@@ -11,7 +11,7 @@ export const TestAttemptZodSchema = z.object({
   test: z.string().min(1, "Test ID required"),
   score: z.number().min(0).max(100).optional(),
   status: z
-    .enum(["in-progress", "passed", "failed", "timeout"])
+    .enum(["in-progress", "passed", "failed", "timeout","completed"])
     .default("in-progress"),
   startedAt: z.date().default(() => new Date()),
   completedAt: z

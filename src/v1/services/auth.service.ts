@@ -9,7 +9,7 @@ if (!process.env.EMAIL || !process.env.MAIL_PASSWORD) {
   throw new Error("Missing EMAIL or MAIL_PASSWORD in environment");
 }
 
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   auth: {
     user: process.env.EMAIL,
@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 });
 export const generateTokens = (userId: string) => {
   const accessToken = jwt.sign({ id: userId }, process.env.JWT_SECRET!, {
-    expiresIn: "15m",
+    expiresIn: "30m",
   });
 
   const refreshToken = jwt.sign(

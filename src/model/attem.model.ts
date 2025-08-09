@@ -1,6 +1,30 @@
-import { Schema, model } from "mongoose";
+import { Document, Schema, model, Types } from "mongoose";
+import { IUser } from "./user.model";
+import { TestDocument } from "./test.model";
+import { QuestionDocument } from "./question.model";
 
-const TestAttemptSchema = new Schema(
+export type AttemptStatus = "in-progress" | "passed" | "failed" | "timeout"|"completed";
+
+export interface TestAttemptAnswer {
+  question: Types.ObjectId | QuestionDocument;
+  selectedOption: string;
+  isCorrect?: boolean;
+}
+
+export interface TestAttemptDocument extends Document {
+  user: Types.ObjectId | IUser;
+  test: Types.ObjectId | TestDocument;
+  score?: number;
+  status: AttemptStatus;
+  startedAt: Date;
+  completedAt?: Date;
+  answers: TestAttemptAnswer[];
+  isRetakeAllowed: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const TestAttemptSchema = new Schema<TestAttemptDocument>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -19,7 +43,7 @@ const TestAttemptSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["in-progress", "passed", "failed", "timeout"],
+      enum: ["in-progress", "passed", "failed", "timeout","completed"],
       default: "in-progress",
     },
     startedAt: {
@@ -30,7 +54,7 @@ const TestAttemptSchema = new Schema(
     completedAt: {
       type: Date,
       validate: {
-        validator: function (this: any, v: Date) {
+        validator: function (this: TestAttemptDocument, v: Date | undefined) {
           return this.status === "in-progress" || v !== undefined;
         },
         message: "completedAt is required for submitted attempts",
@@ -60,16 +84,17 @@ const TestAttemptSchema = new Schema(
   { timestamps: true }
 );
 
-TestAttemptSchema.pre("save", function (next) {
+// hook for auto-completion and timeout
+TestAttemptSchema.pre<TestAttemptDocument>("save", function (next) {
   if (this.isModified("status") && this.status !== "in-progress") {
     this.completedAt = this.completedAt || new Date();
   }
 
   // Timeout logic
-  if (this.status === "in-progress" && this.test?.duration) {
+  if (this.status === "in-progress" && this.populated("test")) {
     const elapsedMinutes =
       (Date.now() - this.startedAt.getTime()) / (1000 * 60);
-    if (elapsedMinutes >= this.test.duration) {
+    if (elapsedMinutes >= (this.test as TestDocument).duration) {
       this.status = "timeout";
       this.completedAt = new Date();
     }
@@ -77,5 +102,7 @@ TestAttemptSchema.pre("save", function (next) {
   next();
 });
 
-const TestAttempt = model("TestAttempt", TestAttemptSchema);
-export { TestAttempt };
+export const TestAttempt = model<TestAttemptDocument>(
+  "TestAttempt",
+  TestAttemptSchema
+);
