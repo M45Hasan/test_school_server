@@ -9,8 +9,8 @@
     "url": "https://github.com/m45hasan"
   },
   "scripts": {
-    "build": "tsc && npm exec tsc-alias",
-    "start": "node build/src/index.js",
+    "build": "tsc --build && npx tsc-alias && cp .env build/",
+    "start": "node -r module-alias/register build/src/index.js",
     "start:dev": "nodemon -r tsconfig-paths/register -r module-alias/register src/index.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "clear-cache": "npm cache clean --force",
