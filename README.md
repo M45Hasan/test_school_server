@@ -30,6 +30,10 @@ https://documenter.getpostman.com/view/27898219/2sB3BEmVHz
 - MongoDB Atlas or local instance
 
 
+### Database 
+<img width="1577" height="1965" alt="db" src="https://github.com/user-attachments/assets/0433fdfd-fb4c-4009-b072-c82622053ae0" />
+
+
 ### Installation
 ```bash
 git clone https://github.com/M45Hasan/test-school-server.git
