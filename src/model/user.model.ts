@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import paginate from "mongoose-paginate-v2";
 
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
 export interface IUser extends Document {
   name: string;
   email: string;
