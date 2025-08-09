@@ -78,26 +78,12 @@ app.use(
 );
 // postman collection
 
-app.get("/download-postman-collection", (req, res) => {
-  const filePath = path.join(
-    __dirname,
-    "./postman/test_school.postman_collection.json"
-  );
-  res.download(filePath, "test_school.postman_collection.json");
-});
 
-app.get("/postman-json", (req, res) => {
-  const collection = require("./postman/test_school.postman_collection.json");
-  res.json(collection);
-});
 // app environment end######
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./static/docs.html"));
+  res.sendFile(path.join(process.cwd(), "static/docs.html"));
 });
-app.get("/endpoints", (req, res) => {
-  const endpoints = listEndpoints(app);
-  return res.send(endpoints);
-});
+
 
 // Start the server
 app.listen(PORT, () => {
