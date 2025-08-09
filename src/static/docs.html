@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Competency Assessment Platform API Docs</title>
+    
+    <style>
+      body {
+        font-family: Arial;
+        line-height: 1.6;
+        padding: 20px;
+      }
+      .endpoint {
+        background: #f4f4f4;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      pre {
+        background: #333;
+        color: #fff;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+      <p>
+      <a href="https://documenter.getpostman.com/view/27898219/2sB3BEmVHz"
+        >📚 Competency Assessment Platform API Docs</a
+      >
+    </p>
+
+
+    <div class="endpoint">
+      <h2>POST /api/attempts/:testId/start</h2>
+      <p>Start a new exam attempt (requires SEB headers if configured).</p>
+      <h3>Headers</h3>
+      <pre>
+Authorization: Bearer &lt;your_jwt_token&gt;
+X-SafeExamBrowser: &lt;hashed_config_key&gt; (if SEB enabled)</pre
+      >
+      <h3>Example Response</h3>
+      <pre>
+{
+  "attemptId": "xyz789",
+  "questions": [...],
+  "timeLeft": 30
+}</pre
+      >
+    </div>
+
+    <div class="endpoint">
+      <h2>POST /api/attempts/:attemptId/submit</h2>
+      <p>Submit exam answers.</p>
+      <h3>Request Body</h3>
+      <pre>
+{
+  "answers": [
+    { "questionId": "q1", "selectedOption": "A" },
+    { "questionId": "q2", "selectedOption": "B" }
+  ]
+}</pre
+      >
+      <h3>Example Response</h3>
+      <pre>
+{
+  "score": 85,
+  "status": "passed"
+}</pre
+      >
+    </div>
+
+    <p>
+      <a href="https://documenter.getpostman.com/view/27898219/2sB3BEmVHz"
+        >📌 Postman APIs Collection</a
+      >
+    </p>
+  </body>
+</html>

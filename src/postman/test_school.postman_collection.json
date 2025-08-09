@@ -1,0 +1,1077 @@
+{
+	"info": {
+		"_postman_id": "014937e0-7366-4832-acb4-0276be7b49f4",
+		"name": "test_school",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27898219",
+		"_collection_link": "https://speeding-flare-831890.postman.co/workspace/e9921e82-6b8e-4a3e-826b-17e300d6f1dd/collection/27898219-014937e0-7366-4832-acb4-0276be7b49f4?action=share&source=collection_link&creator=27898219"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test\",\n    \"email\":\"mmhasan045@gmail.com\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"dev.mh45@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify-otp",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\":\"68964588846287a7898e9507\",\n    \"code\":\"187316\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/verify-otp",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"verify-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY3OTQ3NywiZXhwIjoxNzU0NjgwMzc3fQ.b0CyhGnb34ORRIBD1ign3o4EP1IPZJ6pYMgeWE9ORcs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mmhasan045@gmail.com\",\r\n    \"password\":\"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY3OTQ3NywiZXhwIjoxNzU0NjgwMzc3fQ.b0CyhGnb34ORRIBD1ign3o4EP1IPZJ6pYMgeWE9ORcs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newPassword\":\"123457\",\r\n    \"currentPassword\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/update-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch admin/users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY4MDkxOCwiZXhwIjoxNzU0NjgxODE4fQ.tK1jgfehmeLs09kXlEZwlYF-C4ZUXi26BAXi3MRKlAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mmhasan045@gmail.com\",\r\n    \"password\":\"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/admin/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin/role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY4MDkxOCwiZXhwIjoxNzU0NjgxODE4fQ.tK1jgfehmeLs09kXlEZwlYF-C4ZUXi26BAXi3MRKlAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"6896430c8df650e9534fc7d1\",\r\n    \"role\":\"student\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/admin/role",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "questions",
+			"item": [
+				{
+					"name": "questions add by admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY4MzM4OSwiZXhwIjoxNzU0Njg0Mjg5fQ.kMpRMiHdF12abVFKxRZjoOKGc8NnbyqYef4g8OntSGY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"In MongoDB, how do you perform an aggregation to group documents by a field and count occurrences?\",\r\n    \"competency\": \"MongoDB\",\r\n    \"level\": \"C2\",\r\n    \"options\": [\r\n      \"$group: { _id: '$field', count: { $sum: 1 } }\",\r\n      \"$match: { field: { $count: 1 } }\",\r\n      \"$sort: { field: 1 }\",\r\n      \"$project: { field: 1, count: 1 }\"\r\n    ],\r\n    \"correctAnswer\": \"$group: { _id: '$field', count: { $sum: 1 } }\",\r\n    \"timeLimit\": 60\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/questions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove by admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY4MzM4OSwiZXhwIjoxNzU0Njg0Mjg5fQ.kMpRMiHdF12abVFKxRZjoOKGc8NnbyqYef4g8OntSGY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/questions/6896580fb576c255b69c6936",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"questions",
+								"6896580fb576c255b69c6936"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update by admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY4MzM4OSwiZXhwIjoxNzU0Njg0Mjg5fQ.kMpRMiHdF12abVFKxRZjoOKGc8NnbyqYef4g8OntSGY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"timeLimit\": 30\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/questions/6896580fb576c255b69c6936",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"questions",
+								"6896580fb576c255b69c6936"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDY4MzM4OSwiZXhwIjoxNzU0Njg0Mjg5fQ.kMpRMiHdF12abVFKxRZjoOKGc8NnbyqYef4g8OntSGY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"In MongoDB, how do you perform an aggregation to group documents by a field and count occurrences?\",\r\n    \"competency\": \"MongoDB\",\r\n    \"level\": \"C2\",\r\n    \"options\": [\r\n      \"$group: { _id: '$field', count: { $sum: 1 } }\",\r\n      \"$match: { field: { $count: 1 } }\",\r\n      \"$sort: { field: 1 }\",\r\n      \"$project: { field: 1, count: 1 }\"\r\n    ],\r\n    \"correctAnswer\": \"$group: { _id: '$field', count: { $sum: 1 } }\",\r\n    \"timeLimit\": 60\r\n  }"
+						},
+						"url": {
+							"raw": "{{base_url}}/questions?limit=5&page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"questions"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test",
+			"item": [
+				{
+					"name": "add tests by admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDcxMDEwNSwiZXhwIjoxNzU0NzExMDA1fQ.ewd3xNmTCXBSFUkxwGgOYeCiV_KVoq3aG7osldP6AmA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"step\": \"3\",\r\n  \"levelsCovered\": [\"C1\", \"C2\"],\r\n  \"totalQuestions\": 4,\r\n  \"duration\": 2,\r\n  \"passingThreshold\": 25\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tests",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tests"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update test",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDcxMTI4MSwiZXhwIjoxNzU0NzEyMTgxfQ.MWL5S-gy7otw-q6UFKCWvE9-w8a1PzyQst0G9A86-sc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n  \"totalQuestions\": 2\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/tests/6896c333f286dcf042f724a5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tests",
+								"6896c333f286dcf042f724a5"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch all by admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDcxMTI4MSwiZXhwIjoxNzU0NzEyMTgxfQ.MWL5S-gy7otw-q6UFKCWvE9-w8a1PzyQst0G9A86-sc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/tests",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tests"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get step",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0NTg4ODQ2Mjg3YTc4OThlOTUwNyIsImlhdCI6MTc1NDcxMTgzNywiZXhwIjoxNzU0NzEyNzM3fQ.reQW_jF87ET4lrLrQYUrmbo-570JiJmUwpCKGotQAE0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/tests/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"tests",
+								"2"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "attempt",
+			"item": [
+				{
+					"name": "request for test ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0MzBjOGRmNjUwZTk1MzRmYzdkMSIsImlhdCI6MTc1NDczMDk2OSwiZXhwIjoxNzU0NzMyNzY5fQ.DPgjqEOkxpEUwbPDPgRPN3alfndAh10fO8eHcPYcjM0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mmhasan045@gmail.com\",\r\n    \"password\":\"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/attempts/6896c333f286dcf042f724a5/start",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attempts",
+								"6896c333f286dcf042f724a5",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "my attempt",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0MzBjOGRmNjUwZTk1MzRmYzdkMSIsImlhdCI6MTc1NDcyNTgyOCwiZXhwIjoxNzU0NzI2NzI4fQ.i_NdPbd3G9K-Oom5n585tkO1XU7Wqlo7a-PoA58QdpA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mmhasan045@gmail.com\",\r\n    \"password\":\"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/attempts/6896fc9e8d790123640fa1cf",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attempts",
+								"6896fc9e8d790123640fa1cf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "attempt question ",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0MzBjOGRmNjUwZTk1MzRmYzdkMSIsImlhdCI6MTc1NDcyMzk4MSwiZXhwIjoxNzU0NzI0ODgxfQ.2OoLFONLih4a_IpSZk2SEwleiQGeJOPUFFUt1t4-eqc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base_url}}/questions/for-attempt/6896f5c9a48d975d27e8cf28",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"questions",
+								"for-attempt",
+								"6896f5c9a48d975d27e8cf28"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "submit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0MzBjOGRmNjUwZTk1MzRmYzdkMSIsImlhdCI6MTc1NDczMDk2OSwiZXhwIjoxNzU0NzMyNzY5fQ.DPgjqEOkxpEUwbPDPgRPN3alfndAh10fO8eHcPYcjM0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": \"68965931dd8f281430ec1a42\",\r\n      \"selectedOption\": \"const\"\r\n    },\r\n    {\r\n      \"questionId\": \"6896593edd8f281430ec1a46\",\r\n      \"selectedOption\": \"GET\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/attempts/689711e86ab94682df7dfcaf/submit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"attempts",
+								"689711e86ab94682df7dfcaf",
+								"submit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "certificate",
+			"item": [
+				{
+					"name": "certificate generate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0MzBjOGRmNjUwZTk1MzRmYzdkMSIsImlhdCI6MTc1NDczMDk2OSwiZXhwIjoxNzU0NzMyNzY5fQ.DPgjqEOkxpEUwbPDPgRPN3alfndAh10fO8eHcPYcjM0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mmhasan045@gmail.com\",\r\n    \"password\":\"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/certificates/689711e86ab94682df7dfcaf/generate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"certificates",
+								"689711e86ab94682df7dfcaf",
+								"generate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "my-certificates",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0MzBjOGRmNjUwZTk1MzRmYzdkMSIsImlhdCI6MTc1NDczMjE3NiwiZXhwIjoxNzU0NzMzOTc2fQ.rK_yOAP1AHDmGfQSdyt2Mbcv2ItiQA8AbbCLFCRi06I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mmhasan045@gmail.com\",\r\n    \"password\":\"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/certificates/my-certificates",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"certificates",
+								"my-certificates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "certificate verify",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OTY0MzBjOGRmNjUwZTk1MzRmYzdkMSIsImlhdCI6MTc1NDczMjE3NiwiZXhwIjoxNzU0NzMzOTc2fQ.rK_yOAP1AHDmGfQSdyt2Mbcv2ItiQA8AbbCLFCRi06I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mmhasan045@gmail.com\",\r\n    \"password\":\"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/certificates/verify/il1bibo9sme41kb8j",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"certificates",
+								"verify",
+								"il1bibo9sme41kb8j"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test-step",
+			"item": [
+				{
+					"name": "signup Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test\",\n    \"email\":\"mmhasan045@gmail.com\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "login Copy",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"dev.mh45@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/",
+			"disabled": true
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api.school/v1",
+			"type": "string"
+		}
+	]
+}

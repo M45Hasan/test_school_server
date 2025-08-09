@@ -20,7 +20,6 @@ import router from "./v1/routes/index";
 import { errorHandler } from "./error/errorHandler";
 import { dbConnect } from "../config/db.config";
 
-
 const app = express();
 // Serve static files from React build directory
 const buildPath = join(__dirname, "../../admin/dist");
@@ -28,40 +27,33 @@ app.use(express.static(buildPath));
 app.set("view engine", "ejs");
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true, limit: "5mb" }));
+app.use(express.static("static"));
+app.use("/postman", express.static("postman"));
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-let allowedOrigins: string[] = [
-
- 
-  "http://localhost:8080",
-];
+let allowedOrigins: string[] = ["http://localhost:8080"];
 
 app.use(
   cors({
     origin: (incomingOrigin, callback) => {
-     
       if (!incomingOrigin) {
         return callback(null, true);
       }
-     
+
       if (allowedOrigins.includes(incomingOrigin)) {
         return callback(null, true);
       }
-     
+
       return callback(
         new Error(`CORS policy: origin ${incomingOrigin} not allowed`)
       );
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization"
-    
-    ],
-    preflightContinue: false, 
-    optionsSuccessStatus: 204, 
+    allowedHeaders: ["Content-Type", "Authorization"],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   })
 );
 
@@ -76,7 +68,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
 dbConnect();
 app.use(
   session({
@@ -85,10 +76,23 @@ app.use(
     saveUninitialized: true,
   })
 );
+// postman collection
 
+app.get("/download-postman-collection", (req, res) => {
+  const filePath = path.join(
+    __dirname,
+    "./postman/test_school.postman_collection.json"
+  );
+  res.download(filePath, "test_school.postman_collection.json");
+});
+
+app.get("/postman-json", (req, res) => {
+  const collection = require("./postman/test_school.postman_collection.json");
+  res.json(collection);
+});
 // app environment end######
 app.get("/", (req, res) => {
-  res.send("OK");
+  res.sendFile(path.join(__dirname, "./static/docs.html"));
 });
 app.get("/endpoints", (req, res) => {
   const endpoints = listEndpoints(app);
@@ -98,19 +102,9 @@ app.get("/endpoints", (req, res) => {
 // Start the server
 app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`);
- 
-
-  
 });
 // Register routes
 app.use(router);
-// Add this catch-all route after all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-
-
 
 app.use(errorHandler);
 export default app;
