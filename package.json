@@ -9,13 +9,17 @@
     "url": "https://github.com/m45hasan"
   },
   "scripts": {
-    "build": "npm install && tsc && npx tsc-alias",
-    "start": "node build/src/index.js",
+ "build": "npm install && chmod +x ./node_modules/.bin/tsc-alias && tsc && npx tsc-alias",
+  "start": "node build/src/index.js",
     "start:dev": "nodemon -r tsconfig-paths/register -r module-alias/register src/index.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "clear-cache": "npm cache clean --force",
     "clear": "rm -rf node_modules package-lock.json build",
     "clear:build": "rm -rf build"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
   },
   "dependencies": {
     "@types/mongoose-paginate-v2": "^1.6.4",
